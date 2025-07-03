@@ -68,9 +68,9 @@ function acme() {
 
     docker compose -f acme.sh.yml up -d
     
-    #开放端口, 用于申请ssl证书(未验证是否可行)
+    #开放端口, 用于申请ssl证书(验证过了，不可行)
     #如果80端口被占用，在 --standalone 模式下要指定另外的端口 --httpport 82
-    iptables -I INPUT -p tcp --dport 82 -j ACCEPT
+    #iptables -I INPUT -p tcp --dport 82 -j ACCEPT
 }
 
 # 注意：定义变量时，=号前后不能有空格
