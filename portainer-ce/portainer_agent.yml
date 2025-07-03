@@ -1,0 +1,33 @@
+#version: '3'
+networks:
+  mynet:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+services:
+    agent:
+        image: portainer/agent:2.19.4
+        hostname: agentHost
+        # 映射端口 【宿主机端口:容器端口】
+        ports:
+            - "9001:9001"
+        # 目录挂载 【宿主机目录:容器目录】
+        volumes:
+            # 注意：宿主机目录不用事先存在，没有会自动生成目录，但是如果目录没有内容，则容器目录也会被清空。
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /var/lib/docker/volumes:/var/lib/docker/volumes
+        # 容器名称
+        container_name: agent
+        restart: always
+        # 相当于 docker run -i
+        stdin_open: true
+        # 相当于 docker run -t
+        tty: true
+        #networks:
+        #    mynet:
+                 #为容器指定内网ip
+        #        ipv4_address: 172.20.0.10
+        # 容器的ip在设置的网络名的网段中随机生成
+        #networks:
+        #    - mynet

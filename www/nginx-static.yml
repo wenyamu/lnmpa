@@ -1,0 +1,39 @@
+#version: '3'
+networks:
+  mynet:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+services:
+    static: # 作为静态服务器
+        # 依赖于nginx镜像（nginx/1.24.0），本地无则自动下载
+        image: liujinsong/tengine:3.1.0-alpine
+        hostname: nginxHost_s
+        # 映射端口 【宿主机端口:容器端口】
+        ports:
+            - "81:80"
+            - "444:443"
+        # 目录挂载 【宿主机目录:容器目录】
+        volumes:
+            - /www1/nginxconf/nginx_s.conf:/etc/nginx/nginx.conf
+            - /www1/web:/etc/nginx/html
+            - /www1/conf_s:/etc/nginx/conf.d
+            - /www1/logs/nginx:/var/log/nginx
+            - /www1/ssl:/ssl
+        # 容器名称
+        container_name: nginx_s
+        #environment:
+        #    - "SERSYNC=true"
+        restart: always
+        # 相当于 docker run -i
+        stdin_open: true
+        # 相当于 docker run -t
+        tty: true
+
+        # 指定容器的ip
+        #networks:
+        #    mynet:
+        #        ipv4_address: 172.20.0.3
+        # 容器的ip在设置的网络名的网段中随机生成
+        #networks:
+        #    - mynet

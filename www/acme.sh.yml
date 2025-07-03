@@ -1,0 +1,28 @@
+#version: '3'
+services:
+    acme.sh:
+        # 相当于 docker run ... neilpang/acme.sh daemon
+        image: neilpang/acme.sh
+        command: daemon
+        hostname: acmeHost
+        # 相当于 docker run --net=host
+        network_mode: host #容器使用宿主机的网络
+        #network_mode: none #容器没有网络
+
+        # 目录挂载 【宿主机目录:容器目录】
+        # 相当于 docker run -v /www1/sslout:/acme.sh
+        volumes:
+            - /www1/sslout:/acme.sh
+            - /www1/ssl:/ssl
+            - /www1/web:/web
+
+        # 相当于 docker run --name=acme
+        container_name: acme # 容器名称
+        # 相当于 docker run --restart=always
+        restart: always
+        # 相当于 docker run -i
+        stdin_open: true
+        # 相当于 docker run -t
+        tty: true
+
+#docker run -itd --restart=always -v /www1/sslout:/acme.sh -v /www1/ssl:/ssl --net=host --name=acme neilpang/acme.sh daemon

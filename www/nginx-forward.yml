@@ -1,0 +1,42 @@
+#version: '3'
+networks:
+  mynet:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+services:
+    forward: # 作为转发服务器 80端口
+        # 依赖于nginx镜像（nginx/1.24.0），本地无则自动下载
+        # image: liujinsong/tengine:3.1.0-acme.sh
+        image: liujinsong/tengine:3.1.0-alpine
+        hostname: nginxHost_f
+        # 映射端口 【宿主机端口:容器端口】
+        ports:
+            - "80:80"
+            - "443:443"
+        # 目录挂载 【宿主机目录:容器目录】
+        volumes:
+            - /www1/nginxconf/nginx_f.conf:/etc/nginx/nginx.conf
+            - /www1/web:/etc/nginx/html
+            - /www1/conf_f:/etc/nginx/conf.d
+            - /www1/logs/nginx:/var/log/nginx
+            - /www1/ssl:/ssl
+            #- /www1/sslout:/acme.sh #针对 tengine:3.1.0-acme.sh 镜像
+            #- /www1/logs/supervisor:/var/log/supervisor #针对 tengine:3.1.0-acme.sh 镜像
+        # 容器名称
+        container_name: nginx_f
+        #environment:
+        #    - "SERSYNC=true"
+        restart: always
+        # 相当于 docker run -i
+        stdin_open: true
+        # 相当于 docker run -t
+        tty: true
+
+        # 指定容器的ip
+        #networks:
+        #    mynet:
+        #        ipv4_address: 172.20.0.2
+        # 容器的ip在设置的网络名的网段中随机生成
+        #networks:
+        #    - mynet

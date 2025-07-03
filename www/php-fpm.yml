@@ -1,0 +1,49 @@
+#version: '3'
+networks:
+  mynet:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+volumes:
+  phpfpmd:
+    #相当于执行 docker volume create php7.4_fpm
+    #生成的目录 /var/lib/docker/volumes/php7.4_fpm/_data/
+    #注意：此设置当容器停止或删除，_data 目录会变为空
+    name: php7.4_fpm #临时目录
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      #注意：此设置需要宿主机目录要事先存在（此目录不会因为容器的停止与删除而被清空）
+      device: /www1/php/7.4/fpm #此目录存放 docker.conf 等配置文件
+
+services:
+    php-fpm:
+        image: liujinsong/php:7.4-fpm
+        hostname: phpHost
+        # 映射端口 【宿主机端口:容器端口】
+        ports:
+            - "9004:9000"
+        # 目录挂载 【宿主机目录:容器目录】
+        volumes:
+            # 注意：宿主机目录不用事先存在，没有会自动生成目录，但是如果目录没有内容，则容器目录也会被清空。
+            - /www1/web:/var/www/html
+            # 注意：此设置需要宿主机目录要事先存在
+            # 以下创建方式，有以下两种情况和注意事项：
+            # 1、如果宿主机目录无内容，容器的目录 覆盖 宿主机目录
+            # 2、如果宿主机目录有内容，宿主机目录 覆盖 容器的目录
+            - phpfpmd:/etc/php/7.4/fpm
+        # 容器名称
+        container_name: phpfpm
+        restart: always
+        # 相当于 docker run -i
+        stdin_open: true
+        # 相当于 docker run -t
+        tty: true
+        #networks:
+        #    mynet:
+                 #为容器指定内网ip
+        #        ipv4_address: 172.20.0.10
+        # 容器的ip在设置的网络名的网段中随机生成
+        #networks:
+        #    - mynet
