@@ -23,7 +23,7 @@ docker restart nginx_f
 ```
 docker exec acme acme.sh --issue \
 -d abc.com \
--d abc.com \
+-d www.abc.com \
 -w /web/abc.com \
 --keylength ec-256
 ```
