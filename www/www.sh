@@ -24,8 +24,6 @@ function nginx_forward() {
     #开放端口
     iptables -I INPUT -p tcp --dport 80 -j ACCEPT
     iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-    ip6tables -I INPUT -p tcp --dport 80 -j ACCEPT
-    ip6tables -I INPUT -p tcp --dport 443 -j ACCEPT
 }
 
 ### 二，创建 nginx 静态服务端容器
@@ -42,8 +40,6 @@ function nginx_static() {
     #开放端口
     iptables -I INPUT -p tcp --dport 81 -j ACCEPT
     iptables -I INPUT -p tcp --dport 444 -j ACCEPT
-    ip6tables -I INPUT -p tcp --dport 81 -j ACCEPT
-    ip6tables -I INPUT -p tcp --dport 444 -j ACCEPT
 }
 
 ### 三，创建 php-fpm 动态服务端容器
@@ -61,7 +57,6 @@ function php_fpm() {
     
     #开放端口
     iptables -I INPUT -p tcp --dport 9004 -j ACCEPT
-    ip6tables -I INPUT -p tcp --dport 9004 -j ACCEPT
 }
 
 ### 三，创建 acme.sh ssl证书服务端容器
