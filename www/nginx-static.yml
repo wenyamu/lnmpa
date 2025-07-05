@@ -7,8 +7,8 @@ networks:
 services:
     static: # 作为静态服务器
         # 依赖于nginx镜像（nginx/1.24.0），本地无则自动下载
-        #image: liujinsong/tengine:3.1.0-alpine
-        image: nginx:1.28
+        image: liujinsong/tengine:3.1.0-alpine
+        #image: nginx:1.28
         hostname: nginxHost_s
         # 映射端口 【宿主机端口:容器端口】
         ports:
