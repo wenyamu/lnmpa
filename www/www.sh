@@ -103,7 +103,7 @@ fi
 #6，去掉字符串中的所有空格
 #7，最后得到的软件编号和组合编号就只有7种形式：1,2,3,12,23,13,123
 
-filter_num=`echo ${SOFT_NUM} | tr -cd "[1-4]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
+filter_num=`echo ${SOFT_NUM} | tr -cd "[1-5]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
 
 #此case必须放置在定义的函数后面，不然会提示找不到函数，无法执行
 case $filter_num in
