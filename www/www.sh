@@ -5,6 +5,7 @@ echo "### 1: 创建 nginx 分发服务端   ###"
 echo "### 2: 创建 nginx 静态服务端   ###"
 echo "### 3: 创建 php-fpm 动态服务端 ###"
 echo "### 4: 创建 acme.sh 证书服务端 ###"
+echo "### 5: 创建 mysql 数据库服务端 ###"
 echo "##################################"
 
 mkdir -p /www1/nginxconf/ #创建目录结构，第一次运行时，以免执行 cp 命令时异常
@@ -59,7 +60,7 @@ function php_fpm() {
     iptables -I INPUT -p tcp --dport 9004 -j ACCEPT
 }
 
-### 三，创建 acme.sh ssl证书服务端容器
+### 四，创建 acme.sh ssl证书服务端容器
 function acme() {
     echo "创建 acme.sh 服务端容器"
     docker rm -f acme     # -f 强制删除容器(运行时的容器也可删除)
@@ -71,6 +72,19 @@ function acme() {
     #开放端口, 用于申请ssl证书(验证过了，不可行)
     #如果80端口被占用，在 --standalone 模式下要指定另外的端口 --httpport 82
     #iptables -I INPUT -p tcp --dport 82 -j ACCEPT
+}
+
+### 五，创建 mysql 数据库服务端容器
+function mysql() {
+    echo "创建 mysql 服务端容器"
+    docker rm -f mysql     # -f 强制删除容器(运行时的容器也可删除)
+    #docker network prune  # 清理未使用的网络,需要手动确认
+    #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
+    
+    docker compose -f mysql.yml up -d
+    
+    #开放端口
+    iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
 }
 
 # 注意：定义变量时，=号前后不能有空格
@@ -104,6 +118,9 @@ case $filter_num in
  ;;
  4)
     acme
+ ;;
+ 5)
+    mysql
  ;;
  12)
     nginx_forward
