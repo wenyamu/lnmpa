@@ -12,9 +12,9 @@ services:
         # 目录挂载 【宿主机目录:容器目录】
         # 相当于 docker run -v /www1/sslout:/acme.sh
         volumes:
-            - /www1/sslout:/acme.sh
-            - /www1/ssl:/ssl
-            - /www1/web:/web
+            - /www1/sslout:/acme.sh #用于存放证书原始数据
+            - /www1/ssl:/ssl        #用于存放转换后的证书，比如 /ssl/abc.com/xxx.pem
+            - /www1/web:/web        #用于存放站点的页面文件，比如 /web/abc.com/xxx.html
 
         # 相当于 docker run --name=acme
         container_name: acme # 容器名称
@@ -25,4 +25,4 @@ services:
         # 相当于 docker run -t
         tty: true
 
-#docker run -itd --restart=always -v /www1/sslout:/acme.sh -v /www1/ssl:/ssl --net=host --name=acme neilpang/acme.sh daemon
+#docker run -itd --restart=always -v /www1/sslout:/acme.sh -v /www1/ssl:/ssl -v /www1/web:/web --net=host --name=acme neilpang/acme.sh daemon
