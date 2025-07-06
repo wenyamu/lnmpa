@@ -1,8 +1,8 @@
 #version: '2'
 services:
     mysql-dc:
-        # 依赖于mysql（8.0.26 MySQL Community Server - GPL）镜像
-        image: mysql:8.0.26
+        # 依赖于mysql（5.7 MySQL Community Server - GPL）镜像
+        image: mysql:5.7
         hostname: mysqlHost
         #解决外部无法访问
         command: 
