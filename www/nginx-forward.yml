@@ -17,11 +17,11 @@ services:
             - "443:443"
         # 目录挂载 【宿主机目录:容器目录】
         volumes:
-            - /www1/nginxconf/nginx_f.conf:/etc/nginx/nginx.conf
-            - /www1/web:/etc/nginx/html
-            - /www1/conf_f:/etc/nginx/conf.d
-            - /www1/logs/nginx:/var/log/nginx
-            - /www1/ssl:/ssl
+            - /www1/nginxconf/nginx_f.conf:/etc/nginx/nginx.conf #nginx程序的功能配置
+            - /www1/web:/etc/nginx/html                          #站点页面文件
+            - /www1/conf_f:/etc/nginx/conf.d                     #nginx站点配置文件
+            - /www1/logs/nginx:/var/log/nginx                    #nginx日志
+            - /www1/ssl:/ssl                                     #nginx使用的证书文件
             #- /www1/sslout:/acme.sh #针对 tengine:3.1.0-acme.sh 镜像
             #- /www1/logs/supervisor:/var/log/supervisor #针对 tengine:3.1.0-acme.sh 镜像
         # 容器名称
