@@ -17,10 +17,10 @@ services:
         # 目录挂载 【宿主机目录:容器目录】
         volumes:
             - /www1/nginxconf/nginx_s.conf:/etc/nginx/nginx.conf #nginx功能配置文件
-            - /www1/web:/etc/nginx/html                          #站点页面文件
-            - /www1/conf_s:/etc/nginx/conf.d                     #站点配置
-            - /www1/logs/nginx:/var/log/nginx                    #站点日志
-            - /www1/ssl:/ssl                                     #站点证书文件
+            - /www1/web:/etc/nginx/html                          #存放站点页面文件
+            - /www1/conf_s:/etc/nginx/conf.d                     #存放站点配置
+            - /www1/logs/nginx:/var/log/nginx                    #存放站点日志
+            - /www1/ssl:/ssl                                     #存放站点证书文件
         # 容器名称
         container_name: nginx_s
         #environment:
