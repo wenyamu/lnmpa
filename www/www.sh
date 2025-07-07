@@ -1,12 +1,13 @@
 #!/bin/bash
 
-echo "##################################"
-echo "### 1: 创建 nginx 分发服务端   ###"
-echo "### 2: 创建 nginx 静态服务端   ###"
-echo "### 3: 创建 php-fpm 动态服务端 ###"
-echo "### 4: 创建 acme.sh 证书服务端 ###"
-echo "### 5: 创建 mysql 数据库服务端 ###"
-echo "##################################"
+echo "####################################"
+echo "### 1: 创建 nginx 分发服务端     ###"
+echo "### 2: 创建 nginx 静态服务端     ###"
+echo "### 3: 创建 php-fpm 动态服务端   ###"
+echo "### 4: 创建 acme.sh 证书服务端   ###"
+echo "### 5: 创建 mysql 数据库服务端   ###"
+echo "### 6: 创建 mariadb 数据库服务端 ###"
+echo "####################################"
 
 mkdir -p /www1/nginxconf/ #创建目录结构，第一次运行时，以免执行 cp 命令时异常
 
@@ -81,7 +82,20 @@ function mysql() {
     #docker network prune  # 清理未使用的网络,需要手动确认
     #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
     
-    docker compose -f mysql.yml up -d
+    docker compose -f mysql5.7.yml up -d
+    
+    #开放端口
+    iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
+}
+
+### 六，创建 mariadb 数据库服务端容器
+function mariadb() {
+    echo "创建 mariadb 服务端容器"
+    docker rm -f mariadb     # -f 强制删除容器(运行时的容器也可删除)
+    #docker network prune  # 清理未使用的网络,需要手动确认
+    #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
+    
+    docker compose -f mariadb10.yml up -d
     
     #开放端口
     iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
@@ -103,7 +117,7 @@ fi
 #6，去掉字符串中的所有空格
 #7，最后得到的软件编号和组合编号就只有7种形式：1,2,3,12,23,13,123
 
-filter_num=`echo ${SOFT_NUM} | tr -cd "[1-5]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
+filter_num=`echo ${SOFT_NUM} | tr -cd "[1-6]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
 
 #此case必须放置在定义的函数后面，不然会提示找不到函数，无法执行
 case $filter_num in
@@ -121,6 +135,9 @@ case $filter_num in
  ;;
  5)
     mysql
+ ;;
+ 6)
+    mariadb
  ;;
  12)
     nginx_forward
