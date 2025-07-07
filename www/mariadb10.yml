@@ -2,7 +2,7 @@
 services:
     mariadb-dc:
         # 依赖于mariadb镜像
-        image: mariadb:10
+        image: mariadb:10.11
         hostname: mariadbHost
         #解决外部无法访问
         command: 
