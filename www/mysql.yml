@@ -8,8 +8,8 @@ services:
         command: 
             --default-authentication-plugin=mysql_native_password
             --bind-address=0.0.0.0
-            --character-set-server=utf8mb4        #字符集
-            --collation-server=utf8mb4_general_ci #排序规则
+            --character-set-server=utf8mb4
+            --collation-server=utf8mb4_general_ci
             --explicit_defaults_for_timestamp=true
             --lower_case_table_names=1
         # 映射端口 【宿主机端口:容器端口】
