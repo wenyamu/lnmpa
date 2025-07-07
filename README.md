@@ -1,5 +1,5 @@
 # lnmpa
-linux + nginx + mysql(待补) + php + acme.sh
+linux + nginx + mysql/mariadb + php + acme.sh
 
 用法:
 ```
