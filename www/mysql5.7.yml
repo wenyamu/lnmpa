@@ -1,9 +1,9 @@
 #version: '2'
 services:
-    mariadb-dc:
-        # 依赖于mariadb镜像
-        image: mariadb:10
-        hostname: mariadbHost
+    mysql-dc:
+        # 依赖于mysql（5.7 MySQL Community Server - GPL）镜像
+        image: mysql:5.7
+        hostname: mysqlHost
         #解决外部无法访问
         command: 
             --default-authentication-plugin=mysql_native_password
@@ -17,26 +17,26 @@ services:
             - "3306:3306"
         # 目录挂载 【宿主机目录:容器目录】
         volumes:
-            - /www1/mariadb/data:/var/lib/mysql
-            - /www1/mariadb/conf:/etc/mysql/conf.d
+            - /www1/mysql/data:/var/lib/mysql
+            - /www1/mysql/conf:/etc/mysql/conf.d
             # 数据库还原目录 可将需要还原的sql文件放在这里
-            - /www1/mariadb/source:/docker-entrypoint-initdb.d
+            - /www1/mysql/source:/docker-entrypoint-initdb.d
         #以下配置初始值，解决无法访问的问题
         environment:
             #方式1：
             #- "MYSQL_ROOT_PASSWORD=123456"
-            #- "MYSQL_DATABASE=mariadb123"
+            #- "MYSQL_DATABASE=mysql123"
             #- "TZ=Asia/Shanghai"
             #- "MYSQL_USER=ljs"
             #- "MYSQL_PASSWORD=ljsljs"
             #方式2：
             MYSQL_ROOT_PASSWORD: 123456
-            MYSQL_DATABASE: mariadb123
+            MYSQL_DATABASE: mysql123
             TZ: Asia/Shanghai
             MYSQL_USER: ljs
             MYSQL_PASSWORD: ljsljs
         # 容器名称
-        container_name: mariadb
+        container_name: mysql
         restart: always
         # 相当于 docker run -i
         stdin_open: true
