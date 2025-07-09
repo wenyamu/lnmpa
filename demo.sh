@@ -5,6 +5,7 @@ echo "### 1: 安装 docker-ce       ###"
 echo "### 2: 部署 web 服务        ###"
 echo "### 3: 安装 portainer-ce    ###"
 echo "### 4: 安装 portainer_agent ###"
+echo "### 5: 重置 nginx 配置文件  ###"
 echo "###############################"
 
 # 注意：定义的函数名不能含有字符"-"，可以使用"_"
@@ -37,6 +38,13 @@ function agent() {
     docker compose -f portainer-ce/portainer_agent.yml up -d
 }
 
+### 五，重置 nginx 配置
+function reset_nginx() {
+    echo "重置 nginx 配置"
+    cd ./Nginx_template/
+    chmod +x ./run.py && python3 ./run.py
+}
+
 # 注意：定义变量时，=号前后不能有空格
 read -p "继续请输入对应编号或编号组合, 退出Ctrl+C : " SOFT_NUM
 #如果 ${SOFT_NUM} 字符串为空，则默认为0
@@ -53,7 +61,7 @@ fi
 #6，去掉字符串中的所有空格
 #7，最后得到的软件编号和组合编号就只有7种形式：1,2,3,12,23,13,123
 
-filter_num=`echo ${SOFT_NUM} | tr -cd "[1-4]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
+filter_num=`echo ${SOFT_NUM} | tr -cd "[1-5]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
 
 #此case必须放置在定义的函数后面，不然会提示找不到函数，无法执行
 case $filter_num in
@@ -68,6 +76,9 @@ case $filter_num in
  ;;
  4)
     agent
+ ;;
+ 5)
+    reset_nginx
  ;;
  *)
     echo "请重新输入编号或编号组合"
