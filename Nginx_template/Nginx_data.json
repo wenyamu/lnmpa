@@ -1,0 +1,44 @@
+{
+    "689.im": {
+        "alias": "www.689.im",
+        "root": "/etc/nginx/html/689.im",
+        "port": 80,
+        "sslport": 443,
+        "upstream_html80": "689_im_staticServer80",
+        "upstream_html443": "689_im_staticServer443",
+        "upstream_php": "689_im_phpfpmhost",
+        "689_im_staticServer80": [
+            "server 45.77.104.115:81 weight=1 max_fails=2 fail_timeout=10",
+            "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
+        ],
+        "689_im_staticServer443": [
+            "server 45.77.104.115:444 weight=1 max_fails=2 fail_timeout=10",
+            "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
+        ],
+        "689_im_phpfpmhost": [
+            "server 45.77.104.115:9004 weight=1 max_fails=2 fail_timeout=10",
+            "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
+        ]
+    },
+    "ljs.im": {
+        "alias": "www.ljs.im",
+        "root": "/etc/nginx/html/ljs.im",
+        "port": 80,
+        "sslport": 443,
+        "upstream_html80": "ljs_im_staticServer80",
+        "upstream_html443": "ljs_im_staticServer443",
+        "upstream_php": "ljs_im_phpfpmhost",
+        "ljs_im_staticServer80": [
+            "server 45.77.104.115:81 weight=1 max_fails=2 fail_timeout=10",
+            "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
+        ],
+        "ljs_im_staticServer443": [
+            "server 45.77.104.115:444 weight=1 max_fails=2 fail_timeout=10",
+            "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
+        ],
+        "ljs_im_phpfpmhost": [
+            "server 45.77.104.115:9004 weight=1 max_fails=2 fail_timeout=10",
+            "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
+        ]
+    }
+}
