@@ -56,10 +56,10 @@ SITES = {
 '''
 JSON_FILE       = "Nginx_data.json"
 
-TEMPLATE_FILE_F = "Nginx_template/Forward_template.conf"
+TEMPLATE_FILE_F = "Forward_template.conf"
 OUTPUT_DIR_F    = "/www1/conf_f"
 
-TEMPLATE_FILE_S = "Nginx_template/Static_template.conf"
+TEMPLATE_FILE_S = "Static_template.conf"
 OUTPUT_DIR_S    = "/www1/conf_s"
 
 # 读取json文件
