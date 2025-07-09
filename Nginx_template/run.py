@@ -1,3 +1,4 @@
+import shutil
 import os
 import json
 
@@ -74,6 +75,17 @@ with open(TEMPLATE_FILE_F, "r") as f:
 with open(TEMPLATE_FILE_S, "r") as s:
     template_s = s.read()
 
+#复制旧目录中文件到新的目录中
+def batch_copy(src_dir, dst_dir):
+    #新目录不存在就创建
+    if not os.path.exists(dst_dir):
+        os.makedirs(dst_dir)
+    #循环旧目录中的文件复制到新目录
+    for filename in os.listdir(src_dir):
+        src_path = os.path.join(src_dir, filename)
+        if os.path.isfile(src_path):
+            shutil.copy2(src_path, dst_dir)
+
 # 生成各站点配置
 for domain, config in SITES.items():
     
@@ -107,6 +119,9 @@ for domain, config in SITES.items():
     output_path_s = os.path.join(OUTPUT_DIR_S, f"{domain}_s.conf")
     with open(output_path_s, "w") as f:
         f.write(content_s)
+    
+    # 复制域名证书文件
+    batch_copy("./ssl", f"/www1/ssl/{domain}")
     
     print(f"Generated config for {domain}")
 
