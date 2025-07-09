@@ -28,13 +28,13 @@ services:
             #- "MYSQL_DATABASE=db_test"
             #- "TZ=Asia/Shanghai"
             #- "MYSQL_USER=db_user"
-            #- "MYSQL_PASSWORD=user12345"
+            #- "MYSQL_PASSWORD=user123"
             #方式2：
             MYSQL_ROOT_PASSWORD: 123456
             MYSQL_DATABASE: db_test
             TZ: Asia/Shanghai
             MYSQL_USER: db_user
-            MYSQL_PASSWORD: user12345
+            MYSQL_PASSWORD: user123
         # 容器名称
         container_name: mysql
         restart: always
