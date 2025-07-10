@@ -45,3 +45,10 @@ docker restart nginx_f
 ```
 
 访问 http://abc.com 会跳转到 https://www.abc.com
+
+# 如果php使用curl无法返回数据时
+```
+#‌跳过证书验证（开发环境）
+curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+```
