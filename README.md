@@ -49,6 +49,7 @@ docker restart nginx_f
 # 如果php使用curl无法返回数据时
 ```
 #‌跳过证书验证（开发环境）
+$curl = curl_init();
 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 ```
