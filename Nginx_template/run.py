@@ -85,11 +85,11 @@ portainer_conf = """
     #https://0.0.0.0:9443 访问 portainer web页面
     #portainer代理配置 https://www.abc.com/p 和 https://www.abc.com/p/ 实现访问时末尾带不带/都能正常访问
     location /p {
-        rewrite ^/p$ https://www.689.im/portainer/ redirect;
+        rewrite ^/p$ https://{{DOMAIN}}/portainer/ redirect;
     }
     
     location /p/ {
-        rewrite ^/p/$ https://www.689.im/portainer/ redirect;
+        rewrite ^/p/$ https://{{DOMAIN}}/portainer/ redirect;
     }
     
     #portainer代理配置 https://www.abc.com/portainer/ 最后末尾/不能少
@@ -171,6 +171,8 @@ for domain, config in SITES.items():
         
         # 替换模板, 把模板 portainer_upstream 中的变量名 $servers 替换为 servers_content 
         portainer_upstream = portainer_upstream.substitute(servers=servers_content)
+        
+        portainer_conf = portainer_conf.replace("{{DOMAIN}}", domain)
         
         content_f = content_f.replace("#{{PORTAINER_CONF}}",  portainer_conf) \
                              .replace("#{{PORTAINER_UPSTREAM}}",  portainer_upstream)
