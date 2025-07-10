@@ -16,7 +16,7 @@
             "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
         ],
         "689_im_phpfpmhost": [
-            "server 45.77.104.115:9004 weight=1 max_fails=2 fail_timeout=10",
+            "server 45.77.104.115:9001 weight=1 max_fails=2 fail_timeout=10",
             "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
         ]
     },
@@ -37,7 +37,7 @@
             "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
         ],
         "ljs_im_phpfpmhost": [
-            "server 45.77.104.115:9004 weight=1 max_fails=2 fail_timeout=10",
+            "server 45.77.104.115:9001 weight=1 max_fails=2 fail_timeout=10",
             "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
         ]
     }
