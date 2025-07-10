@@ -197,7 +197,7 @@ for domain, config in SITES.items():
         f.write(content_s)
     
     # 复制域名临时证书文件，只是为了避免 nginx 容器无法启动，后续还需要替换成有效的证书文件
-    # 如果 fullchain.pem 证书已经存在，不复制
+    # 如果 fullchain.pem 证书已经存在(用于判断证书是否已经使用 acme.sh 生成，避免执行后覆盖掉有效的证书文件)，就跳过
     if os.path.exists(f"/www1/ssl/{domain}/fullchain.pem"):
         pass
     else:
