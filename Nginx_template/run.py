@@ -10,7 +10,10 @@ SITES = {
         "root": "/etc/nginx/html/689.im",
         "port": 80,
         "sslport": 443,
-        "portainer": true,
+        "portainer": [
+            "server 1.2.3.4:9443 weight=1 max_fails=2 fail_timeout=10",
+            "check interval=3000 rise=2 fall=5 timeout=2000 type=tcp"
+        ],
         "upstream_html80": "689_im_staticServer80",
         "upstream_html443": "689_im_staticServer443",
         "upstream_php": "689_im_phpfpmhost",
@@ -35,7 +38,7 @@ SITES = {
         "root": "/etc/nginx/html/ljs.im",
         "port": 80,
         "sslport": 443,
-        "portainer": false,
+        "portainer": [],
         "upstream_html80": "ljs_im_staticServer80",
         "upstream_html443": "ljs_im_staticServer443",
         "upstream_php": "ljs_im_phpfpmhost",
@@ -71,21 +74,8 @@ upstream portainer443 {
     
     $servers
     
-    # 开启健康检查功能 需要编译安装 nginx_upstream_check_module 模块
-    check interval=3000 rise=2 fall=5 timeout=2000 type=tcp;
 }
 """)
-
-# 新服务器列表配置
-portainer_servers = [
-    "45.77.104.115:9443 weight=1 max_fails=2 fail_timeout=10"
-]
-
-# 生成servers部分
-servers_content = "\n    ".join([f"server {s};" for s in portainer_servers])
-
-# 替换模板, 把模板中的变量名 $servers 替换为 servers_content 
-portainer_upstream = portainer_upstream.substitute(servers=servers_content)
 
 ##########################################################################
 ##########################################################################
@@ -173,6 +163,15 @@ for domain, config in SITES.items():
     
     #如果需要配置 portainer
     if config["portainer"]:
+        # 新服务器列表配置
+        portainer_servers = config["portainer"]
+        
+        # 生成servers部分
+        servers_content = "\n    ".join([f"{s};" for s in portainer_servers])
+        
+        # 替换模板, 把模板中的变量名 $servers 替换为 servers_content 
+        portainer_upstream = portainer_upstream.substitute(servers=servers_content)
+        
         content_f = content_f.replace("#{{PORTAINER_CONF}}",  portainer_conf) \
                              .replace("#{{PORTAINER_UPSTREAM}}",  portainer_upstream)
     
@@ -196,7 +195,11 @@ for domain, config in SITES.items():
         f.write(content_s)
     
     # 复制域名临时证书文件，只是为了避免 nginx 容器无法启动，后续还需要替换成有效的证书文件
-    batch_copy("./base_ssl", f"/www1/ssl/{domain}")
+    # 如果 fullchain.pem 证书已经存在，不复制
+    if os.path.exists(f"/www1/ssl/{domain}/fullchain.pem"):
+        pass
+    else:
+        batch_copy("./base_ssl", f"/www1/ssl/{domain}")
     
     print(f"Generated config for {domain}")
 
