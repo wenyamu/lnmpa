@@ -169,7 +169,7 @@ for domain, config in SITES.items():
         # 生成servers部分
         servers_content = "\n    ".join([f"{s};" for s in portainer_servers])
         
-        # 替换模板, 把模板中的变量名 $servers 替换为 servers_content 
+        # 替换模板, 把模板 portainer_upstream 中的变量名 $servers 替换为 servers_content 
         portainer_upstream = portainer_upstream.substitute(servers=servers_content)
         
         content_f = content_f.replace("#{{PORTAINER_CONF}}",  portainer_conf) \
