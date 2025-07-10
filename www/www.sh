@@ -5,8 +5,8 @@ echo "### 1: 创建 nginx 分发服务端     ###"
 echo "### 2: 创建 nginx 静态服务端     ###"
 echo "### 3: 创建 php-fpm 动态服务端   ###"
 echo "### 4: 创建 acme.sh 证书服务端   ###"
-echo "### 5: 创建 mysql 数据库服务端   ###"
-echo "### 6: 创建 mariadb 数据库服务端 ###"
+echo "### 5: 创建 mariadb 数据库服务端 ###"
+echo "### 6: 创建 mysql 数据库服务端   ###"
 echo "####################################"
 
 mkdir -p /www1/nginxconf/ #创建目录结构，第一次运行时，以免执行 cp 命令时异常
@@ -58,7 +58,7 @@ function php_fpm() {
     docker compose -f php-fpm.yml up -d
     
     #开放端口
-    iptables -I INPUT -p tcp --dport 9004 -j ACCEPT
+    iptables -I INPUT -p tcp --dport 9001 -j ACCEPT
 }
 
 ### 四，创建 acme.sh ssl证书服务端容器
@@ -75,20 +75,7 @@ function acme() {
     #iptables -I INPUT -p tcp --dport 82 -j ACCEPT
 }
 
-### 五，创建 mysql 数据库服务端容器
-function mysql() {
-    echo "创建 mysql 服务端容器"
-    docker rm -f mysql     # -f 强制删除容器(运行时的容器也可删除)
-    #docker network prune  # 清理未使用的网络,需要手动确认
-    #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
-    
-    docker compose -f mysql5.7.yml up -d
-    
-    #开放端口
-    iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
-}
-
-### 六，创建 mariadb 数据库服务端容器
+### 五，创建 mariadb 数据库服务端容器
 function mariadb() {
     echo "创建 mariadb 服务端容器"
     docker rm -f mariadb     # -f 强制删除容器(运行时的容器也可删除)
@@ -99,6 +86,19 @@ function mariadb() {
     
     #开放端口
     iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
+}
+
+### 六，创建 mysql 数据库服务端容器
+function mysql() {
+    echo "创建 mysql 服务端容器"
+    docker rm -f mysql     # -f 强制删除容器(运行时的容器也可删除)
+    #docker network prune  # 清理未使用的网络,需要手动确认
+    #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
+    
+    docker compose -f mysql5.7.yml up -d
+    
+    #开放端口
+    iptables -I INPUT -p tcp --dport 3307 -j ACCEPT
 }
 
 # 注意：定义变量时，=号前后不能有空格
@@ -134,10 +134,10 @@ case $filter_num in
     acme
  ;;
  5)
-    mysql
+    mariadb
  ;;
  6)
-    mariadb
+    mysql
  ;;
  12)
     nginx_forward
@@ -155,6 +155,12 @@ case $filter_num in
     nginx_forward
     nginx_static
     php_fpm
+ ;;
+ 1235)
+    nginx_forward
+    nginx_static
+    php_fpm
+    mariadb
  ;;
  *)
     echo "请重新输入编号或编号组合"
