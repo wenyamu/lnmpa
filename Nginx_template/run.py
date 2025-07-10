@@ -195,7 +195,7 @@ for domain, config in SITES.items():
     with open(output_path_s, "w") as f:
         f.write(content_s)
     
-    # 复制域名证书文件
+    # 复制域名临时证书文件，只是为了避免 nginx 容器无法启动，后续还需要替换成有效的证书文件
     batch_copy("./base_ssl", f"/www1/ssl/{domain}")
     
     print(f"Generated config for {domain}")
