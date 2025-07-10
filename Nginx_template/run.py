@@ -1,8 +1,8 @@
 import shutil
 import os
 import json
+from string import Template
 
-# 配置参数
 '''
 SITES = {
     "689.im": {
@@ -10,6 +10,7 @@ SITES = {
         "root": "/etc/nginx/html/689.im",
         "port": 80,
         "sslport": 443,
+        "portainer": true,
         "upstream_html80": "689_im_staticServer80",
         "upstream_html443": "689_im_staticServer443",
         "upstream_php": "689_im_phpfpmhost",
@@ -34,6 +35,7 @@ SITES = {
         "root": "/etc/nginx/html/ljs.im",
         "port": 80,
         "sslport": 443,
+        "portainer": false,
         "upstream_html80": "ljs_im_staticServer80",
         "upstream_html443": "ljs_im_staticServer443",
         "upstream_php": "ljs_im_phpfpmhost",
@@ -55,6 +57,68 @@ SITES = {
     }
 }
 '''
+# 配置参数
+##########################################################################
+##########################################################################
+##########################################################################
+#portainer 在 upstream { ... } 中的配置
+portainer_upstream = Template("""
+upstream portainer443 {
+    #ip_hash; #让相同的客户端ip请求相同的服务器
+    
+    #portainer容器所在宿主机ip:宿主机端口（映射容器的9443端口）
+    zone portainer443 1m;
+    
+    $servers
+    
+    # 开启健康检查功能 需要编译安装 nginx_upstream_check_module 模块
+    check interval=3000 rise=2 fall=5 timeout=2000 type=tcp;
+}
+""")
+
+# 新服务器列表配置
+portainer_servers = [
+    "45.77.104.115:9443 weight=1 max_fails=2 fail_timeout=10"
+]
+
+# 生成servers部分
+servers_content = "\n    ".join([f"server {s};" for s in portainer_servers])
+
+# 替换模板, 把模板中的变量名 $servers 替换为 servers_content 
+portainer_upstream = portainer_upstream.substitute(servers=servers_content)
+
+##########################################################################
+##########################################################################
+##########################################################################
+#portainer 在 server { ... } 中的配置
+portainer_conf = """
+    #https://0.0.0.0:9443 访问 portainer web页面
+    #portainer代理配置 https://www.abc.com/p 和 https://www.abc.com/p/ 最后末尾带不带/都能正常访问
+    location /p {
+        rewrite ^/p$ https://www.689.im/portainer/ redirect;
+    }
+    
+    location /p/ {
+        rewrite ^/p/$ https://www.689.im/portainer/ redirect;
+    }
+    
+    #portainer代理配置 https://www.abc.com/portainer/ 最后末尾/不能少
+    location ~ "^/portainer(/?.*)" {
+        # IP地址根据自己的改
+        proxy_pass https://portainer443$1$is_args$args;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        # 开启拦截 proxy_pass 页面错误，如果有错误就转到 error_page 设置的错误页面
+        proxy_intercept_errors on;
+        #当 upstream 中的某个服务器发生了 错误、超时、返回500状态码等异常时，转向下一台服务器
+        proxy_next_upstream error timeout http_500 http_502 http_503 http_504 http_404;
+    }
+"""
+
 JSON_FILE       = "Nginx_data.json"
 
 TEMPLATE_FILE_F = "Forward_template.conf"
@@ -94,6 +158,7 @@ for domain, config in SITES.items():
     servers_html443 = "\n    ".join([f"{s};" for s in config[config["upstream_html443"]]])
     servers_php     = "\n    ".join([f"{s};" for s in config[config["upstream_php"]]])
     
+    #配置 转发服务器
     content_f = template_f.replace("{{DOMAIN}}",            domain) \
                           .replace("{{ALIAS}}",             config["alias"]) \
                           .replace("{{ROOT}}",              config["root"]) \
@@ -106,10 +171,16 @@ for domain, config in SITES.items():
                           .replace("{{SERVERS_HTML443}}",   servers_html443) \
                           .replace("{{SERVERS_PHP}}",       servers_php)
     
+    #如果需要配置 portainer
+    if config["portainer"]:
+        content_f = content_f.replace("#{{PORTAINER_CONF}}",  portainer_conf) \
+                             .replace("#{{PORTAINER_UPSTREAM}}",  portainer_upstream)
+    
     output_path_f = os.path.join(OUTPUT_DIR_F, f"{domain}_f.conf")
     with open(output_path_f, "w") as f:
         f.write(content_f)
     
+    #配置 静态服务器
     content_s = template_s.replace("{{DOMAIN}}",  domain) \
                           .replace("{{ALIAS}}",   config["alias"]) \
                           .replace("{{ROOT}}",    config["root"]) \
@@ -128,38 +199,3 @@ for domain, config in SITES.items():
 ##########################################################################
 ##########################################################################
 ##########################################################################
-
-'''
-from string import Template
-
-upstream_template = Template("""
-upstream backend {
-    #ip_hash; #让相同的客户端ip请求相同的服务器
-    
-    #nginx容器所在宿主机ip:宿主机端口（映射容器的80端口）
-    zone backend 1m;
-    $servers
-    # 开启健康检查功能 需要编译安装 nginx_upstream_check_module 模块
-    check interval=3000 rise=2 fall=5 timeout=2000 type=tcp;
-}
-""")
-
-OUTPUT_DIR = "/www1/conf_s"
-
-# 新服务器列表配置
-new_servers = [
-    "192.168.1.10 weight=5",
-    "192.168.1.11:8080 weight=3",
-    "192.168.1.12 backup"
-]
-
-# 生成servers部分
-servers_content = "\n    ".join([f"server {s};" for s in new_servers])
-
-# 替换模板
-new_config = upstream_template.substitute(servers=servers_content)
-
-output_path = os.path.join(OUTPUT_DIR, f"upstream.conf")
-with open(output_path, "w") as f:
-    f.write(new_config)
-'''
