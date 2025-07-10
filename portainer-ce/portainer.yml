@@ -18,7 +18,7 @@ services:
         hostname: portainerHost
         # 映射端口 【宿主机端口:容器端口】
         ports:
-            #- "8000:8000"
+            - "9000:9000"
             - "9443:9443"
         # 目录挂载 【宿主机目录:容器目录】
         volumes:
