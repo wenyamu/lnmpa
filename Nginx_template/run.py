@@ -177,6 +177,8 @@ for domain, config in SITES.items():
                              .replace("#{{PORTAINER_UPSTREAM}}",  portainer_upstream)
     
     output_path_f = os.path.join(OUTPUT_DIR_F, f"{domain}_f.conf")
+    if not os.path.exists(OUTPUT_DIR_F):
+        os.makedirs(OUTPUT_DIR_F)
     with open(output_path_f, "w") as f:
         f.write(content_f)
     
@@ -188,6 +190,8 @@ for domain, config in SITES.items():
                           .replace("{{SSLPORT}}", str(config["sslport"]))
     
     output_path_s = os.path.join(OUTPUT_DIR_S, f"{domain}_s.conf")
+    if not os.path.exists(OUTPUT_DIR_S):
+        os.makedirs(OUTPUT_DIR_S)
     with open(output_path_s, "w") as f:
         f.write(content_s)
     
