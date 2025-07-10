@@ -29,6 +29,9 @@ function portainer() {
     echo "安装 portainer-ce"
     #docker rm -f portainer      # -f 强制删除容器(运行时的容器也可删除)
     docker compose -f portainer-ce/portainer.yml up -d
+    #开放端口
+    iptables -I INPUT -p tcp --dport 9000 -j ACCEPT
+    iptables -I INPUT -p tcp --dport 9443 -j ACCEPT
 }
 
 ### 四，创建 portainer_agent 容器，安装了 portainer_agent 的容器可以由 portainer-ce 统一管理
