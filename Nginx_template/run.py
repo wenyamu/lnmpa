@@ -66,11 +66,11 @@ SITES = {
 ##########################################################################
 #portainer 在 upstream { ... } 中的配置
 portainer_upstream = Template("""
-upstream portainer443 {
+upstream portainer9443 {
     #ip_hash; #让相同的客户端ip请求相同的服务器
     
     #portainer容器所在宿主机ip:宿主机端口（映射容器的9443端口）
-    zone portainer443 1m;
+    zone portainer9443 1m;
     
     $servers
     
@@ -95,7 +95,7 @@ portainer_conf = """
     #portainer代理配置 https://www.abc.com/portainer/ 最后末尾/不能少
     location ~ "^/portainer(/?.*)" {
         # IP地址根据自己的改
-        proxy_pass https://portainer443$1$is_args$args;
+        proxy_pass https://portainer9443$1$is_args$args;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header Upgrade $http_upgrade;
