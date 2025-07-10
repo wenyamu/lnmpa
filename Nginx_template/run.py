@@ -121,7 +121,7 @@ for domain, config in SITES.items():
         f.write(content_s)
     
     # 复制域名证书文件
-    batch_copy("./ssl", f"/www1/ssl/{domain}")
+    batch_copy("./base_ssl", f"/www1/ssl/{domain}")
     
     print(f"Generated config for {domain}")
 
