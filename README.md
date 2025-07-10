@@ -3,6 +3,7 @@ linux + nginx + mysql/mariadb + php + acme.sh
 
 用法:
 ```
+pip install docker && \
 apt install -y git && \
 curl -L https://github.com/wenyamu/docker/releases/download/v1.0.0/docker-ce.sh | bash && \
 git clone https://github.com/wenyamu/lnmpa.git /root/lnmpa && \
