@@ -109,13 +109,13 @@ portainer_conf = """
     }
 """
 
-JSON_FILE       = "Nginx_data.json"
+JSON_FILE       = "Nginx_data.json"        #nginx站点配置中的参数，比如: 域名，端口号，目录等
 
-TEMPLATE_FILE_F = "Forward_template.conf"
-OUTPUT_DIR_F    = "/www1/conf_f"
+TEMPLATE_FILE_F = "Forward_template.conf"  #nginx转发服务的配置模板
+OUTPUT_DIR_F    = "/www1/conf_f"           #nginx转发服务的配置目录
 
-TEMPLATE_FILE_S = "Static_template.conf"
-OUTPUT_DIR_S    = "/www1/conf_s"
+TEMPLATE_FILE_S = "Static_template.conf"   #nginx静态服务的配置模板
+OUTPUT_DIR_S    = "/www1/conf_s"           #nginx静态服务的配置目录
 
 # 读取json文件
 with open(JSON_FILE, 'r', encoding='utf-8') as f:
