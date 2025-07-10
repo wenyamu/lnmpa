@@ -2,6 +2,7 @@ import shutil
 import os
 import json
 from string import Template
+import docker #pip install docker
 
 '''
 SITES = {
@@ -140,6 +141,23 @@ def batch_copy(src_dir, dst_dir):
         if os.path.isfile(src_path):
             shutil.copy2(src_path, dst_dir)
 
+#使用 python 在宿主机中操作容器中的命令行 nginx -s reload 使nginx配置生效
+def reload_nginx(container_name):
+    client = docker.from_env()
+    try:
+        container = client.containers.get(container_name)
+        # 发送SIGHUP信号触发nginx重载配置
+        exec_result = container.exec_run("nginx -s reload")
+        if exec_result.exit_code == 0:
+            print(f"Nginx in container {container_name} reloaded successfully")
+        else:
+            print(f"Reload failed: {exec_result.output.decode()}")
+    except docker.errors.NotFound:
+        print(f"Container {container_name} not found")
+    except docker.errors.APIError as e:
+        print(f"Docker API error: {str(e)}")
+
+
 # 生成各站点配置
 for domain, config in SITES.items():
     
@@ -204,6 +222,8 @@ for domain, config in SITES.items():
         batch_copy("./base_ssl", f"/www1/ssl/{domain}")
     
     print(f"Generated config for {domain}")
+    reload_nginx("nginx_f")
+    reload_nginx("nginx_s")
 
 ##########################################################################
 ##########################################################################
