@@ -83,7 +83,7 @@ upstream portainer443 {
 #portainer 在 server { ... } 中的配置
 portainer_conf = """
     #https://0.0.0.0:9443 访问 portainer web页面
-    #portainer代理配置 https://www.abc.com/p 和 https://www.abc.com/p/ 最后末尾带不带/都能正常访问
+    #portainer代理配置 https://www.abc.com/p 和 https://www.abc.com/p/ 实现访问时末尾带不带/都能正常访问
     location /p {
         rewrite ^/p$ https://www.689.im/portainer/ redirect;
     }
