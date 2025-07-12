@@ -16,7 +16,7 @@ mkdir -p /www1/nginxconf/ #创建目录结构，第一次运行时，以免执�
 function nginx_forward() {
     echo "创建 nginx 分发服务端容器"
     docker rm -f nginx_f      # -f 强制删除分发服务容器(运行时的容器也可删除)
-
+    
     cp -r ./web/ /www1/
     cp -r ./ssl/ /www1/
     cp -r ./conf_f/ /www1/
@@ -32,7 +32,7 @@ function nginx_forward() {
 function nginx_static() {
     echo "创建 nginx 静态服务端容器"
     docker rm -f nginx_s      # -f 强制删除静态服务容器(运行时的容器也可删除)
-
+    
     cp -r ./web/ /www1/
     cp -r ./ssl/ /www1/
     cp -r ./conf_s/ /www1/
@@ -51,7 +51,7 @@ function php_fpm() {
     docker volume rm php7.4_fpm # 删除容器绑定的卷(切记！不要手动删除目录)
     #docker network prune        # 清理未使用的网络,需要手动确认
     #docker volume prune         # 清理未使用的卷,需要手动确认（有时会失效）
-
+    
     rm -r /www1/php/
     #mkdir -p /www1/php/7.4/fpm
     cp -r ./web/ /www1/
@@ -67,7 +67,7 @@ function acme() {
     docker rm -f acme     # -f 强制删除容器(运行时的容器也可删除)
     #docker network prune  # 清理未使用的网络,需要手动确认
     #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
-
+    
     docker compose -f acme.sh.yml up -d
     
     #开放端口, 用于申请ssl证书(验证过了，不可行)
