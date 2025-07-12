@@ -3,7 +3,7 @@ import os
 import sys
 import json
 from string import Template
-import docker #pip install docker
+import docker
 import subprocess
 
 '''
@@ -79,6 +79,7 @@ def batch_copy(src_dir, dst_dir):
             shutil.copy2(src_path, dst_dir)
 
 #使用 python 在宿主机中操作容器中的命令行 nginx -s reload 使nginx配置生效
+#需要安装 docker 模块，pip install docker
 def reload_nginx(container_name):
     client = docker.from_env()
     try:
@@ -94,6 +95,7 @@ def reload_nginx(container_name):
     except docker.errors.APIError as e:
         print(f"Docker API error: {str(e)}")
 
+#使用 subprocess 模块在宿主机中操作容器中的命令行 nginx -s reload
 def reload_nginx2(container_name):
     try:
         subprocess.run(
