@@ -111,7 +111,7 @@ function php_fpm() {
     docker compose -p phpfpm_project -f php-fpm.yml up -d
     
     #开放端口
-    iptables -I INPUT -p tcp --dport 9001 -j ACCEPT
+    iptables -I INPUT -p tcp --dport 9074 -j ACCEPT
     
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] 创建 phpfpm 服务端容器 完成"
 }
