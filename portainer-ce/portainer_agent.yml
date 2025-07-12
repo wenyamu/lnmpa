@@ -7,7 +7,7 @@ networks:
 
 services:
     agent:
-        image: portainer/agent:2.19.4
+        image: portainer/agent:latest #2.19.4
         hostname: agentHost
         # 映射端口 【宿主机端口:容器端口】
         ports:
