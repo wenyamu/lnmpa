@@ -106,6 +106,7 @@ def reload_nginx2(container_name):
     except subprocess.CalledProcessError as e:
         print(f"重载失败: {e.stderr.decode()}")
 
+#分发服务的nginx配置
 def forward(JSON_FILE,portainer_upstream,portainer_conf):
     
     TEMPLATE_FILE_F = "Forward_template.conf"  #nginx转发服务的配置模板
@@ -174,7 +175,7 @@ def forward(JSON_FILE,portainer_upstream,portainer_conf):
     #加载nginx配置，当配置无错误时立即生效
     reload_nginx("nginx_f")
     
-
+#静态服务的nginx配置
 def static(JSON_FILE):
     
     TEMPLATE_FILE_S = "Static_template.conf"   #nginx静态服务的配置模板
@@ -210,11 +211,22 @@ def static(JSON_FILE):
     reload_nginx("nginx_s")
 
 def main():
+    """
     print("##############################")
     print("### 1. 配置nginx转发服务器 ###")
     print("### 2. 配置nginx静态服务器 ###")
     print("### 3. 退出 (Ctrl+C)       ###")
     print("##############################")
+    """
+    
+    text = """
+    ##############################
+    ### 1. 配置nginx转发服务器 ###
+    ### 2. 配置nginx静态服务器 ###
+    ### 3. 退出 (Ctrl+C)       ###
+    ##############################
+    """
+    print(text)
     
     choice = input("请输入选项(1/2/3): ")
     
