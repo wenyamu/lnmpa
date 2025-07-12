@@ -52,7 +52,7 @@ function php_fpm() {
     #docker network prune        # 清理未使用的网络,需要手动确认
     #docker volume prune         # 清理未使用的卷,需要手动确认（有时会失效）
     
-    rm -r /www1/php/
+    #rm -r /www1/php/
     #mkdir -p /www1/php/7.4/fpm
     cp -r ./web/ /www1/
     docker compose -f php-fpm.yml up -d
