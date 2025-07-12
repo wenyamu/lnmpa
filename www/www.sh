@@ -63,7 +63,7 @@ function nginx_forward() {
     cp -r ./conf_f/ /www1/
     cp -r ./nginxconf/nginx_f.conf /www1/nginxconf/nginx_f.conf
     
-    # 使用 -p 自定义项目名，避免目录名冲突(会出现 orphan containers 孤儿容器)
+    # 使用 -p 自定义项目名，避免目录名冲突(不然会出现 orphan containers 孤儿容器)
     docker compose -p nginx_f_project -f nginx-forward.yml up -d
     
     #开放端口
@@ -84,7 +84,7 @@ function nginx_static() {
     cp -r ./conf_s/ /www1/
     cp -r ./nginxconf/nginx_s.conf /www1/nginxconf/nginx_s.conf
     
-    # 使用 -p 自定义项目名，避免目录名冲突(会出现 orphan containers 孤儿容器)
+    # 使用 -p 自定义项目名，避免目录名冲突(不然会出现 orphan containers 孤儿容器)
     docker compose -p nginx_s_project -f nginx-static.yml up -d
     
     #开放端口
@@ -107,7 +107,7 @@ function php_fpm() {
     mkdir -p /www1/php/7.4/fpm
     cp -r ./web/ /www1/
     
-    # 使用 -p 自定义项目名，避免目录名冲突(会出现 orphan containers 孤儿容器)
+    # 使用 -p 自定义项目名，避免目录名冲突(不然会出现 orphan containers 孤儿容器)
     docker compose -p phpfpm_project -f php-fpm.yml up -d
     
     #开放端口
@@ -124,7 +124,7 @@ function acme() {
     #docker network prune  # 清理未使用的网络,需要手动确认
     #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
     
-    # 使用 -p 自定义项目名，避免目录名冲突(会出现 orphan containers 孤儿容器)
+    # 使用 -p 自定义项目名，避免目录名冲突(不然会出现 orphan containers 孤儿容器)
     docker compose -p acme_project -f acme.sh.yml up -d
     
     #开放端口, 用于申请ssl证书(验证过了，不可行)
@@ -142,7 +142,7 @@ function mariadb() {
     #docker network prune  # 清理未使用的网络,需要手动确认
     #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
     
-    # 使用 -p 自定义项目名，避免目录名冲突(会出现 orphan containers 孤儿容器)
+    # 使用 -p 自定义项目名，避免目录名冲突(不然会出现 orphan containers 孤儿容器)
     docker compose -p mariadb_project -f mariadb10.yml up -d
     
     #开放端口
@@ -159,7 +159,7 @@ function mysql() {
     #docker network prune  # 清理未使用的网络,需要手动确认
     #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
     
-    # 使用 -p 自定义项目名，避免目录名冲突(会出现 orphan containers 孤儿容器)
+    # 使用 -p 自定义项目名，避免目录名冲突(不然会出现 orphan containers 孤儿容器)
     docker compose -p mysql_project -f mysql5.7.yml up -d
     
     #开放端口
