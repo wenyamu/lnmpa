@@ -11,7 +11,6 @@ echo "####################################"
 
 mkdir -p /www1/nginxconf/ #创建目录结构，第一次运行时，以免执行 cp 命令时异常
 
-
 # 删除容器函数
 function remove_docker_container() {
     local container_name=$1
