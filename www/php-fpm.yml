@@ -28,11 +28,11 @@ services:
         volumes:
             # 注意：宿主机目录不用事先存在，没有会自动生成目录，但是如果目录没有内容，则容器目录也会被清空。
             - /www1/web:/var/www/html
-            - /www1/php/7.4/fpm:/etc/php/7.4/fpm
+            #- /www1/php/7.4/fpm:/etc/php/7.4/fpm #这种方法不行
             # 注意：以下设置需要宿主机目录要事先存在，有以下两种情况和注意事项：
             # 1、如果宿主机目录无内容，容器的目录 覆盖 宿主机目录
             # 2、如果宿主机目录有内容，宿主机目录 覆盖 容器的目录
-            #- phpfpmd:/etc/php/7.4/fpm
+            - phpfpmd:/etc/php/7.4/fpm
         # 容器名称
         container_name: phpfpm
         restart: always
