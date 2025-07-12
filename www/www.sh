@@ -48,7 +48,7 @@ function nginx_static() {
 function php_fpm() {
     echo "创建 php-fpm 服务端容器"
     docker rm -f phpfpm         # -f 强制删除容器(运行时的容器也可删除)
-    docker volume rm php7.4_fpm # 删除容器绑定的卷(切记！不要手动删除目录)
+    #docker volume rm php7.4_fpm # 删除容器绑定的卷(切记！不要手动删除目录)
     #docker network prune        # 清理未使用的网络,需要手动确认
     #docker volume prune         # 清理未使用的卷,需要手动确认（有时会失效）
     
