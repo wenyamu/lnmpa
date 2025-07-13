@@ -1,6 +1,8 @@
 # lnmpa
 linux + nginx + mysql/mariadb + php + acme.sh
 
+# 注意：nginx 与 php 容器中的web文件要一致，不然会找不到页面
+
 用法:
 ```
 pip install docker && \
