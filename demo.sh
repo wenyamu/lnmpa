@@ -1,30 +1,65 @@
 #!/bin/bash
 
 echo "###############################"
-echo "### 1: 安装 docker-ce       ###"
-echo "### 2: 部署 web 服务        ###"
-echo "### 3: 安装 portainer-ce    ###"
-echo "### 4: 安装 portainer_agent ###"
-echo "### 5: 重载 nginx 配置文件  ###"
+echo "### 1: 部署 web 服务        ###"
+echo "### 2: 安装 portainer-ce    ###"
+echo "### 3: 安装 portainer_agent ###"
+echo "### 4: 重载 nginx 配置文件  ###"
 echo "###############################"
 
 # 注意：定义的函数名不能含有字符"-"，可以使用"_"
-### 一，安装 docker-ce
-function docker_ce() {
+
+# 检测Docker是否已安装
+function check_docker_installed() {
+    if command -v docker &> /dev/null; then
+        echo "✅ Docker已安装，版本：$(docker --version | awk '{print $3}' | tr -d ',')"
+        return 0
+    else
+        echo "❌ Docker未安装"
+        return 1
+    fi
+}
+
+# 检查Docker服务状态
+function check_docker_service() {
+    if systemctl is-active --quiet docker; then
+        echo "🟢 Docker服务正在运行"
+        return 0
+    else
+        echo "🔴 Docker服务未运行"
+        return 1
+    fi
+}
+
+# 安装 docker-ce
+function install_docker_ce() {
     echo "安装 docker-ce"
     cd ./docker-ce/
     chmod +x ./docker-ce.sh && ./docker-ce.sh
     cd ..
 }
 
-### 二，部署 web 服务
+# 检测是否安装，是否启动；在部署 docker 容器前执行
+function pre_install_docker_ce() {
+    if check_docker_installed; then
+        check_docker_service || sudo systemctl start docker
+    else
+        install_docker_ce
+        check_docker_service || sudo systemctl start docker
+    fi
+}
+
+# 执行
+pre_install_docker_ce
+
+### 一，部署 web 服务
 function web() {
     echo "部署 web 服务"
     cd ./www/
     chmod +x ./www.sh && ./www.sh
 }
 
-### 三，创建 portainer-ce 容器，管理宿主机的容器，也可以管理安装了 portainer_agent 的容器
+### 二，创建 portainer-ce 容器，管理宿主机的容器，也可以管理安装了 portainer_agent 的容器
 function portainer() {
     echo "安装 portainer-ce"
     #docker rm -f portainer      # -f 强制删除容器(运行时的容器也可删除)
@@ -34,14 +69,14 @@ function portainer() {
     iptables -I INPUT -p tcp --dport 9443 -j ACCEPT
 }
 
-### 四，创建 portainer_agent 容器，安装了 portainer_agent 的容器可以由 portainer-ce 统一管理
+### 三，创建 portainer_agent 容器，安装了 portainer_agent 的容器可以由 portainer-ce 统一管理
 function agent() {
     echo "安装 portainer_agent"
     #docker rm -f agent      # -f 强制删除容器(运行时的容器也可删除)
     docker compose -f portainer-ce/portainer_agent.yml up -d
 }
 
-### 五，重置 nginx 配置
+### 四，重置 nginx 配置
 function reset_nginx() {
     echo "重置 nginx 配置"
     cd ./Nginx_template/
@@ -64,23 +99,20 @@ fi
 #6，去掉字符串中的所有空格
 #7，最后得到的软件编号和组合编号就只有7种形式：1,2,3,12,23,13,123
 
-filter_num=`echo ${SOFT_NUM} | tr -cd "[1-5]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
+filter_num=`echo ${SOFT_NUM} | tr -cd "[1-4]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
 
 #此case必须放置在定义的函数后面，不然会提示找不到函数，无法执行
 case $filter_num in
  1)
-    docker_ce
- ;;
- 2)
     web
  ;;
- 3)
+ 2)
     portainer
  ;;
- 4)
+ 3)
     agent
  ;;
- 5)
+ 4)
     reset_nginx
  ;;
  *)
