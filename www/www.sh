@@ -71,6 +71,8 @@ function nginx_forward() {
     iptables -I INPUT -p tcp --dport 443 -j ACCEPT
     
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] 创建 nginx_f 服务端容器 完成"
+    echo "-----------------------------------------------------------"
+    
 }
 
 ### 二，创建 nginx 静态服务端容器
@@ -91,7 +93,9 @@ function nginx_static() {
     iptables -I INPUT -p tcp --dport 81 -j ACCEPT
     iptables -I INPUT -p tcp --dport 444 -j ACCEPT
     
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 创建 nginx_s 服务端容器 完成"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 创建 nginx_s 服务端容器 完成
+    "echo "-----------------------------------------------------------"
+    
 }
 
 ### 三，创建 php-fpm 动态服务端容器
@@ -114,6 +118,8 @@ function php_fpm() {
     iptables -I INPUT -p tcp --dport 9074 -j ACCEPT
     
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] 创建 phpfpm 服务端容器 完成"
+    echo "-----------------------------------------------------------"
+    
 }
 
 ### 四，创建 acme.sh ssl证书服务端容器
@@ -132,6 +138,8 @@ function acme() {
     #iptables -I INPUT -p tcp --dport 82 -j ACCEPT
     
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] 创建 acme 服务端容器 完成"
+    echo "-----------------------------------------------------------"
+    
 }
 
 ### 五，创建 mariadb 数据库服务端容器
@@ -149,6 +157,8 @@ function mariadb() {
     iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
     
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] 创建 mariadb 服务端容器 完成"
+    echo "-----------------------------------------------------------"
+    
 }
 
 ### 六，创建 mysql 数据库服务端容器
@@ -166,6 +176,8 @@ function mysql() {
     iptables -I INPUT -p tcp --dport 3307 -j ACCEPT
     
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] 创建 mysql 服务端容器 完成"
+    echo "-----------------------------------------------------------"
+    
 }
 
 # 注意：定义变量时，=号前后不能有空格
