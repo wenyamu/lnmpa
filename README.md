@@ -45,6 +45,9 @@ docker exec acme acme.sh --install-cert \
 ```
 docker restart nginx_f
 ```
+6, 重载nginx配置文件
+`Nginx_template/Nginx_data.json` 修改这个文件，然后再执行重载
+重载时已经加入了 `nginx -s reload` 命令，不需要重启容器。
 
 访问 http://abc.com 会跳转到 https://www.abc.com
 
