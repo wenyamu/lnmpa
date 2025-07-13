@@ -1,7 +1,8 @@
 # lnmpa
 linux + nginx + mysql/mariadb + php + acme.sh
 
-# 注意：nginx 分发容器、nginx 静态容器、 php 动态容器，三者中的 web文件 要完全一致，不然访问时会找不到页面
+# 注意：
+> nginx 分发容器、nginx 静态容器、 php 动态容器，三者中的 web文件 要完全一致，不然访问时会找不到页面
 
 用法:
 ```
