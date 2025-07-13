@@ -8,7 +8,7 @@ function check_docker_installed() {
         echo "✅  Docker已安装, 版本: $(docker --version | awk '{print $3}' | tr -d ',')"
         return 0
     else
-        echo "❌ Docker未安装"
+        echo "❌  Docker未安装"
         return 1
     fi
 }
