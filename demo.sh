@@ -1,12 +1,5 @@
 #!/bin/bash
 
-echo "###############################"
-echo "### 1: 部署 web 服务        ###"
-echo "### 2: 安装 portainer-ce    ###"
-echo "### 3: 安装 portainer_agent ###"
-echo "### 4: 重载 nginx 配置文件  ###"
-echo "###############################"
-
 # 注意：定义的函数名不能含有字符"-"，可以使用"_"
 
 # 检测Docker是否已安装
@@ -49,9 +42,6 @@ function pre_install_docker_ce() {
     fi
 }
 
-# 执行
-pre_install_docker_ce
-
 ### 一，部署 web 服务
 function web() {
     echo "部署 web 服务"
@@ -82,6 +72,16 @@ function reset_nginx() {
     cd ./Nginx_template/
     chmod +x ./run.py && python3 ./run.py
 }
+
+# 执行
+pre_install_docker_ce
+
+echo "###############################"
+echo "### 1: 部署 web 服务        ###"
+echo "### 2: 安装 portainer-ce    ###"
+echo "### 3: 安装 portainer_agent ###"
+echo "### 4: 重载 nginx 配置文件  ###"
+echo "###############################"
 
 # 注意：定义变量时，=号前后不能有空格
 read -p "继续请输入对应编号或编号组合, 退出Ctrl+C : " SOFT_NUM
