@@ -151,7 +151,7 @@ function mariadb() {
     #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
     
     # 使用 -p 自定义项目名，避免目录名冲突(不然会出现 orphan containers 孤儿容器)
-    docker compose -p mariadb_project -f mariadb10.yml up -d
+    docker compose -p mariadb_project -f mariadb.yml up -d
     
     #开放端口
     iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
@@ -170,7 +170,7 @@ function mysql() {
     #docker volume prune   # 清理未使用的卷,需要手动确认（有时会失效）
     
     # 使用 -p 自定义项目名，避免目录名冲突(不然会出现 orphan containers 孤儿容器)
-    docker compose -p mysql_project -f mysql5.7.yml up -d
+    docker compose -p mysql_project -f mysql.yml up -d
     
     #开放端口
     iptables -I INPUT -p tcp --dport 3307 -j ACCEPT
