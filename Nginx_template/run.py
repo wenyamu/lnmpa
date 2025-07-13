@@ -172,6 +172,14 @@ def forward(JSON_FILE,portainer_upstream,portainer_conf):
         else:
             batch_copy("./base_ssl", f"/www1/ssl/{domain}")
         
+        # 复制web页面，如果目录已经存在则跳过
+        web_dir = f"/www1/web/{domain}"
+        if not os.path.exists(web_dir):
+            # 复制目录（包含所有子文件和子目录）
+            shutil.copytree("./base_web", web_dir, dirs_exist_ok=True)
+        else:
+            pass
+        
         print(f"{domain} 配置文件重写完成")
     
     #加载nginx配置，当配置无错误时立即生效
@@ -206,6 +214,14 @@ def static(JSON_FILE):
             os.makedirs(OUTPUT_DIR_S)
         with open(output_path_s, "w") as f:
             f.write(content_s)
+        
+        # 复制web页面，如果目录已经存在则跳过
+        web_dir = f"/www1/web/{domain}"
+        if not os.path.exists(web_dir):
+            # 复制目录（包含所有子文件和子目录）
+            shutil.copytree("./base_web", web_dir, dirs_exist_ok=True)
+        else:
+            pass
         
         print(f"{domain} 配置文件重写完成")
     
