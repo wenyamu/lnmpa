@@ -5,7 +5,7 @@
 # 检测Docker是否已安装
 function check_docker_installed() {
     if command -v docker &> /dev/null; then
-        echo "✅  Docker已安装，版本：$(docker --version | awk '{print $3}' | tr -d ',')"
+        echo "✅  Docker已安装, 版本: $(docker --version | awk '{print $3}' | tr -d ',')"
         return 0
     else
         echo "❌ Docker未安装"
