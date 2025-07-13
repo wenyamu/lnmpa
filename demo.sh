@@ -5,7 +5,7 @@ echo "### 1: 安装 docker-ce       ###"
 echo "### 2: 部署 web 服务        ###"
 echo "### 3: 安装 portainer-ce    ###"
 echo "### 4: 安装 portainer_agent ###"
-echo "### 5: 重置 nginx 配置文件  ###"
+echo "### 5: 重载 nginx 配置文件  ###"
 echo "###############################"
 
 # 注意：定义的函数名不能含有字符"-"，可以使用"_"
