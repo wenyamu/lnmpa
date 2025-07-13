@@ -1,5 +1,5 @@
 # lnmpa
-> linux(debian 11) + nginx1.24 + mysql5.7/mariadb10.11 + php7.4 + acme.sh
+> linux(debian 11) + nginx1.24 + mariadb10.11 / mysql5.7 + php7.4 + acme.sh
 
 # 注意：
 > nginx 分发容器、nginx 静态容器、 php 动态容器，三者中的 web文件 要完全一致，不然访问时会找不到页面
