@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<h1>nginx 动态服务器配置成功</h1>
+<h1> nginx + php 动态服务器配置成功</h1>
 
 </body>
 </html>
