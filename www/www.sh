@@ -58,7 +58,6 @@ function nginx_forward() {
     
     remove_docker_container "nginx_f" # -f 强制删除分发服务容器(运行时的容器也可删除)
     
-    #cp -r ./web/ /www1/
     cp -r ./ssl/ /www1/
     cp -r ./conf_f/ /www1/
     cp -r ./nginxconf/nginx_f.conf /www1/nginxconf/nginx_f.conf
@@ -81,7 +80,6 @@ function nginx_static() {
     
     remove_docker_container "nginx_s"  # -f 强制删除静态服务容器(运行时的容器也可删除)
     
-    #cp -r ./web/ /www1/
     cp -r ./ssl/ /www1/
     cp -r ./conf_s/ /www1/
     cp -r ./nginxconf/nginx_s.conf /www1/nginxconf/nginx_s.conf
@@ -109,7 +107,6 @@ function php_fpm() {
     
     dir_rm "/www1/php/"
     mkdir -p /www1/php/7.4/fpm
-    #cp -r ./web/ /www1/
     
     # 使用 -p 自定义项目名，避免目录名冲突(不然会出现 orphan containers 孤儿容器)
     docker compose -p phpfpm_project -f php-fpm.yml up -d
