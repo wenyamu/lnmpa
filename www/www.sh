@@ -32,10 +32,10 @@ function safe_volume_rm() {
     if docker volume inspect "$volume_name" >/dev/null 2>&1 && \
        [ -z "$(docker ps -a --filter volume="$volume_name" -q)" ]; then
         docker volume rm "$volume_name" >/dev/null 2>&1 && \
-        echo "[$(date '+%Y-%m-%d %H:%M:%S')] 卷名: $volume_name 删除成功" || \
-        echo "[$(date '+%Y-%m-%d %H:%M:%S')] 卷名: $volume_name 删除失败(可能被隐藏占用)"
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] 卷  : $volume_name 删除成功" || \
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] 卷  : $volume_name 删除失败(可能被隐藏占用)"
     else
-        echo "[$(date '+%Y-%m-%d %H:%M:%S')] 卷名: $volume_name 不存在或正在使用，已跳过"
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] 卷  : $volume_name 不存在或正在使用，已跳过"
     fi
 }
 
