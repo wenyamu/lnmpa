@@ -3,7 +3,7 @@
 services:
   syncthing:
     image: syncthing/syncthing
-    container_name: syncthing
+    container_name: syncthing-s
     hostname: my-s
     environment:
       - PUID=1000
