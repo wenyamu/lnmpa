@@ -10,6 +10,7 @@ services:
       - PGID=1000
     volumes:
       - /wherever/st-sync:/var/syncthing
+      - /www1/web:/var/syncthing/web_f
     ports:
       - 8384:8384 # Web UI
       - 22000:22000/tcp # TCP file transfers
