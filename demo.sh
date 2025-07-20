@@ -70,14 +70,14 @@ function agent() {
 function syncthing_f() {
     echo "安装 syncthing_f"
     #docker rm -f syncthing_f      # -f 强制删除容器(运行时的容器也可删除)
-    docker compose -f syncthing/syncthing_f.yml up -d
+    docker compose -f syncthing/syncthing-f.yml up -d
 }
 
 ### 五，创建 syncthing_s 容器，同于数据同步
 function syncthing_s() {
     echo "安装 syncthing_s"
     #docker rm -f syncthing_s      # -f 强制删除容器(运行时的容器也可删除)
-    docker compose -f syncthing/syncthing_s.yml up -d
+    docker compose -f syncthing/syncthing-s.yml up -d
 }
 
 ### 六，重置 nginx 配置
