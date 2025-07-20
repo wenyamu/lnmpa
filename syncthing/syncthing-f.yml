@@ -8,6 +8,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+      - STGUIADDRESS=
     volumes:
       - /wherever/st-sync:/var/syncthing #默认生成存放配置的文件夹config和同步目录Sync
       - /www1/web:/var/syncthing/web_f   #nginx分发服务器上的网页目录
