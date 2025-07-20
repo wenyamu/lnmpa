@@ -11,7 +11,7 @@ volumes:
       o: bind
       type: none
       #注意：此设置需要宿主机目录要事先存在（此目录不会因为容器的停止与删除而被清空）
-      device: /www1/web #此目录存放 docker.conf 等配置文件
+      device: /www1/web #此目录存放网页文件
 
 services:
   syncthing:
