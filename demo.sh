@@ -70,6 +70,7 @@ function agent() {
 function syncthing_f() {
     echo "安装 syncthing_f"
     #docker rm -f syncthing_f      # -f 强制删除容器(运行时的容器也可删除)
+    mkdir -p /www1/web
     docker compose -f syncthing/syncthing-f.yml up -d
 }
 
@@ -77,6 +78,7 @@ function syncthing_f() {
 function syncthing_s() {
     echo "安装 syncthing_s"
     #docker rm -f syncthing_s      # -f 强制删除容器(运行时的容器也可删除)
+    mkdir -p /www1/web
     docker compose -f syncthing/syncthing-s.yml up -d
 }
 
