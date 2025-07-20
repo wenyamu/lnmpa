@@ -91,7 +91,7 @@ function nginx_static() {
     iptables -I INPUT -p tcp --dport 81 -j ACCEPT
     iptables -I INPUT -p tcp --dport 444 -j ACCEPT
     
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 创建 nginx_s 服务端容器 完成
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 创建 nginx_s 服务端容器 完成"
     echo "-----------------------------------------------------------"
     
 }
