@@ -66,7 +66,7 @@ function agent() {
     docker compose -f portainer-ce/portainer_agent.yml up -d
 }
 
-### 四，创建 syncthing 容器，同于数据同步
+### 四，创建 syncthing 容器，进行文件同步
 function syncthing() {
     echo "安装 syncthing"
     #docker rm -f syncthing      # -f 强制删除容器(运行时的容器也可删除)
