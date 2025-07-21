@@ -73,6 +73,7 @@ function syncthing() {
     mkdir -p /www1/web
     docker compose -f syncthing/syncthing.yml up -d
     docker exec -it syncthing sh -c "chown -R 1000:1000 /syncthing"
+    docker exec syncthing syncthing --device-id #输出syncthing容器的设备id
 }
 
 ### 五，重置 nginx 配置
