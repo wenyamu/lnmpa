@@ -2,8 +2,8 @@
 
 volumes:
   syncFolder:
-    #相当于执行 docker volume create php7.4_fpm
-    #生成的目录 /var/lib/docker/volumes/php7.4_fpm/_data/
+    #相当于执行 docker volume create sync_folder
+    #生成的目录 /var/lib/docker/volumes/sync_folder/_data/
     #注意：此设置当容器停止或删除，_data 目录会变为空
     name: sync_folder #临时目录
     driver: local
