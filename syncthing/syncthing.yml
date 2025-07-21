@@ -19,8 +19,8 @@ services:
     container_name: syncthing
     hostname: ${HOSTNAME:-syncthingHost} # 无HOSTNAME变量时用"syncthingHost"
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1000     # 容器内进程所属用户的 UID
+      - PGID=1000     # 对应 PUID (主组 GID)
       - STGUIADDRESS= #为了安全，不使用 GUI，不监听 0.0.0.0:8384 端口
     volumes:
       - /wherever/st-sync:/var/syncthing #默认生成存放配置的文件夹config和同步目录Sync
