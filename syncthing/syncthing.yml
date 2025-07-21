@@ -21,7 +21,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - STGUIADDRESS=
+      - STGUIADDRESS= #为了安全，不使用 GUI，不监听 0.0.0.0:8384 端口
     volumes:
       - /wherever/st-sync:/var/syncthing #默认生成存放配置的文件夹config和同步目录Sync
       - syncFolder:/syncthing            #syncthing容器上新建的目录
