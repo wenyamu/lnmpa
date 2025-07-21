@@ -18,6 +18,7 @@ services:
     image: syncthing/syncthing
     container_name: syncthing-s
     hostname: my-s
+    user: "1000:1000"  # 格式为 "UID:GID"
     environment:
       - PUID=1000
       - PGID=1000
