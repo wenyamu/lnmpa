@@ -71,4 +71,6 @@ docker exec -it syncthing sh -c "chown -R 1000:1000 /syncthing"
 # 配置文件在容器中的地址 /var/syncthing/config/config.xml
 # 你可以通过命令行查看设备的id
 docker exec -it syncthing sh -c "syncthing --device-id"
+#或者
+docker exec syncthing syncthing --device-id
 ```
