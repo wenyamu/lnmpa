@@ -66,23 +66,16 @@ function agent() {
     docker compose -f portainer-ce/portainer_agent.yml up -d
 }
 
-### 四，创建 syncthing_f 容器，同于数据同步
-function syncthing_f() {
-    echo "安装 syncthing_f"
-    #docker rm -f syncthing_f      # -f 强制删除容器(运行时的容器也可删除)
+### 四，创建 syncthing 容器，同于数据同步
+function syncthing() {
+    echo "安装 syncthing"
+    #docker rm -f syncthing      # -f 强制删除容器(运行时的容器也可删除)
     mkdir -p /www1/web
-    docker compose -f syncthing/syncthing-f.yml up -d
+    docker compose -f syncthing/syncthing.yml up -d
+    docker exec -it syncthing sh -c "chown -R 1000:1000 /var/syncthing"
 }
 
-### 五，创建 syncthing_s 容器，同于数据同步
-function syncthing_s() {
-    echo "安装 syncthing_s"
-    #docker rm -f syncthing_s      # -f 强制删除容器(运行时的容器也可删除)
-    mkdir -p /www1/web
-    docker compose -f syncthing/syncthing-s.yml up -d
-}
-
-### 六，重置 nginx 配置
+### 五，重置 nginx 配置
 function reset_nginx() {
     echo "重置 nginx 配置"
     cd ./Nginx_template/
@@ -96,9 +89,8 @@ echo "###############################"
 echo "### 1: 部署 web 服务        ###"
 echo "### 2: 安装 portainer-ce    ###"
 echo "### 3: 安装 portainer_agent ###"
-echo "### 4: 安装 syncthing-f     ###"
-echo "### 5: 安装 syncthing-s     ###"
-echo "### 6: 重载 nginx 配置文件  ###"
+echo "### 4: 安装 syncthing       ###"
+echo "### 5: 重载 nginx 配置文件  ###"
 echo "###############################"
 
 # 注意：定义变量时，=号前后不能有空格
@@ -117,7 +109,7 @@ fi
 #6，去掉字符串中的所有空格
 #7，最后得到的软件编号和组合编号就只有7种形式：1,2,3,12,23,13,123
 
-filter_num=`echo ${SOFT_NUM} | tr -cd "[1-6]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
+filter_num=`echo ${SOFT_NUM} | tr -cd "[1-5]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
 
 #此case必须放置在定义的函数后面，不然会提示找不到函数，无法执行
 case $filter_num in
@@ -131,12 +123,9 @@ case $filter_num in
     agent
  ;;
  4)
-    syncthing_f
+    syncthing
  ;;
  5)
-    syncthing_s
- ;;
- 6)
     reset_nginx
  ;;
  *)
