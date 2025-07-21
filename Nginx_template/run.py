@@ -5,6 +5,7 @@ import json
 from string import Template
 import docker
 import subprocess
+from datetime import datetime
 
 '''
 SITES = {
@@ -87,13 +88,13 @@ def reload_nginx(container_name):
         # 发送SIGHUP信号触发nginx重载配置
         exec_result = container.exec_run("nginx -s reload")
         if exec_result.exit_code == 0:
-            print(f"Nginx in container {container_name} reloaded successfully")
+            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Nginx in container {container_name} reloaded successfully")
         else:
-            print(f"Reload failed: {exec_result.output.decode()}")
+            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Reload failed: {exec_result.output.decode()}")
     except docker.errors.NotFound:
-        print(f"Container {container_name} not found")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Container {container_name} not found")
     except docker.errors.APIError as e:
-        print(f"Docker API error: {str(e)}")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Docker API error: {str(e)}")
 
 #使用 subprocess 模块在宿主机中操作容器中的命令行 nginx -s reload
 def reload_nginx2(container_name):
@@ -104,9 +105,9 @@ def reload_nginx2(container_name):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
-        print(f"{container_name} Nginx配置重载成功")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {container_name} Nginx配置重载成功")
     except subprocess.CalledProcessError as e:
-        print(f"重载失败: {e.stderr.decode()}")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 重载失败: {e.stderr.decode()}")
 
 #分发服务的nginx配置
 def forward(JSON_FILE,portainer_upstream,portainer_conf):
@@ -180,7 +181,7 @@ def forward(JSON_FILE,portainer_upstream,portainer_conf):
         else:
             pass
         
-        print(f"{domain} 配置文件重写完成")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {domain} 配置文件重写完成")
     
     #加载nginx配置，当配置无错误时立即生效
     reload_nginx("nginx_f")
@@ -223,7 +224,7 @@ def static(JSON_FILE):
         else:
             pass
         
-        print(f"{domain} 配置文件重写完成")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {domain} 配置文件重写完成")
     
     #加载nginx配置，当配置无错误时立即生效
     reload_nginx("nginx_s")
@@ -241,15 +242,15 @@ def main():
     choice = input("请输入选项(1/2/3): ")
     
     if choice == '1':
-        print("配置nginx转发服务器")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 配置nginx转发服务器")
         forward(JSON_FILE,portainer_upstream,portainer_conf)
     elif choice == '2':
-        print("配置nginx静态服务器")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 配置nginx静态服务器")
         static(JSON_FILE)
     elif choice == '3':
         sys.exit(0)
     else:
-        print("无效选项，请重新运行程序")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 无效选项，请重新运行程序")
 
 if __name__ == "__main__":
     main()
