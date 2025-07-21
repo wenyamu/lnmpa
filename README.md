@@ -53,3 +53,14 @@ $curl = curl_init();
 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 ```
+
+# 关于使用 syncthing 进行文件同步
+> 文件的所有者要一致，不然有可能只可以一方同步，另一方不能同步的现象。
+
+> 你可以使用 chown 修改所有权
+```
+#直接修改宿主机中文件或目录的的所有权，以下是修改目录及目录下所有文件及子目录的所有权
+chown -R 1000:1000 /www1/web
+#或者修改容器中的文件或目录的所有权
+docker exec -it syncthing sh -c "chown -R 1000:1000 /syncthing"
+```
