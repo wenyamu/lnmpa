@@ -24,7 +24,7 @@ services:
       - STGUIADDRESS=
     volumes:
       - /wherever/st-sync:/var/syncthing #默认生成存放配置的文件夹config和同步目录Sync
-      - syncFolder:/var/syncthing/web   #nginx分发服务器上的网页目录
+      - syncFolder:/syncthing            #syncthing容器上新建的目录
     ports:
       #- 8384:8384 # Web UI
       - 22000:22000/tcp # TCP file transfers
