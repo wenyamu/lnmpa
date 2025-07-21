@@ -72,7 +72,7 @@ function syncthing() {
     #docker rm -f syncthing      # -f 强制删除容器(运行时的容器也可删除)
     mkdir -p /www1/web
     docker compose -f syncthing/syncthing.yml up -d
-    docker exec -it syncthing sh -c "chown -R 1000:1000 /var/syncthing"
+    docker exec -it syncthing sh -c "chown -R 1000:1000 /syncthing"
 }
 
 ### 五，重置 nginx 配置
