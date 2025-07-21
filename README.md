@@ -55,6 +55,7 @@ curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 ```
 
 # 关于使用 syncthing 进行文件同步
+## 文件所有权需要一致
 > 文件的所有者要一致，不然有可能只可以A-B同步，B-A不能同步的现象。
 
 > 你可以使用 chown 修改所有权
@@ -63,4 +64,11 @@ curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 chown -R 1000:1000 /www1/web
 #或者修改容器中的文件或目录的所有权
 docker exec -it syncthing sh -c "chown -R 1000:1000 /syncthing"
+```
+## 配置文件的修改
+> 默认情况 syncthing 支持 GUI web页面进行配置，但是为了安全，可以直接修改配置文件
+```
+# 配置文件在容器中的地址 /var/syncthing/config/config.xml
+# 你可以通过命令行查看设备的id
+docker exec -it syncthing sh -c "syncthing --device-id"
 ```
