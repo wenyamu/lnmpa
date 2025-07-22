@@ -12,7 +12,9 @@ echo "设备A ID: $DEVICE_A_ID"
 DEVICE_B_ID=$(docker exec syncthing syncthing --device-id)
 echo "设备B ID: $DEVICE_B_ID"
 ```
-
+#########################
+#########################
+#########################
 # json文件格式
 ```
 {
