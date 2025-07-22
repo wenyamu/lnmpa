@@ -1,0 +1,22 @@
+{
+    "shared-data":[
+        {
+            "device-id":"5SLZXEE-7574VYD-MZUL6YT-QQKEGTN-FZPH6XY-4ADPNRN-6GPSRW7-6IQEBQJ",
+            "name":"",
+            "addresses":"dynamic",
+            "type": "sendreceive",
+            "path": "/syncthing",
+            "label":"",
+            "rescan-intervals":3
+        },
+        {
+            "device-id":"VM3ALPT-KAUHYUT-GQLOKI7-HKDRR2N-RN2RNTG-SXFLQCK-HQHGY76-AG6PTAX",
+            "name":"",
+            "addresses":"dynamic",
+            "type": "sendreceive",
+            "path": "/syncthing",
+            "label":"",
+            "rescan-intervals":3
+        }
+    ]
+}
