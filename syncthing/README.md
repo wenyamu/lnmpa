@@ -131,11 +131,7 @@ docker exec syncthing syncthing cli config folders shared-data devices VM3ALPT-K
 #修改共享文件夹的参数, 一次只能修改一个参数
 docker exec syncthing syncthing cli config folders shared-data rescan-intervals set 3 && \
 docker exec syncthing syncthing cli config folders shared-data type set sendreceive
-```
-
-
-
 
 #未测试
 docker exec syncthing chown -R 1000:1000 /var/syncthing
-
+```
