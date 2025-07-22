@@ -132,6 +132,6 @@ docker exec syncthing syncthing cli config folders shared-data devices VM3ALPT-K
 docker exec syncthing syncthing cli config folders shared-data rescan-intervals set 3 && \
 docker exec syncthing syncthing cli config folders shared-data type set sendreceive
 
-#未测试
+#修改目录的所有权
 docker exec syncthing chown -R 1000:1000 /var/syncthing
 ```
