@@ -66,13 +66,13 @@ docker exec syncthing syncthing cli config folders add \
   --path "/syncthing" \
   --type "sendreceive" \
   --rescan-intervals 3
-```
+
 # 再单独添加设备关联：使用完整路径格式（v1.30+）
-```
 docker exec syncthing syncthing cli config \
   folders shared-data \
   devices add --device-id VM3ALPT-KAUHYUT-GQLOKI7-HKDRR2N-RN2RNTG-SXFLQCK-HQHGY76-AG6PTAX
 ```
+
 # 在设备 B 创建接收文件夹（ID必须与A一致）
 ```
 docker exec syncthing syncthing cli config folders add \
@@ -81,14 +81,13 @@ docker exec syncthing syncthing cli config folders add \
   --path "/syncthing" \
   --type "sendreceive" \
   --rescan-intervals 3
-```
+
 # 再单独添加设备关联：使用完整路径格式（v1.30+）
-```
 docker exec syncthing syncthing cli config \
   folders shared-data \
   devices add --device-id 5SLZXEE-7574VYD-MZUL6YT-QQKEGTN-FZPH6XY-4ADPNRN-6GPSRW7-6IQEBQJ
 ```
-
+# 其他命令行
 ```
 # 查看设备A的同步状态
 docker exec syncthing syncthing cli show system
