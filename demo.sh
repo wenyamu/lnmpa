@@ -72,7 +72,8 @@ function syncthing() {
     #docker rm -f syncthing      # -f 强制删除容器(运行时的容器也可删除)
     mkdir -p /www1/web
     docker compose -f syncthing/syncthing.yml up -d
-    docker exec -it syncthing sh -c "chown -R 1000:1000 /syncthing"
+    #docker exec -it syncthing sh -c "chown -R 1000:1000 /syncthing"
+    docker exec syncthing chown -R 1000:1000 /syncthing
     docker exec syncthing syncthing --device-id #输出syncthing容器的设备id
 }
 
