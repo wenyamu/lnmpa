@@ -15,7 +15,7 @@ volumes:
 
 services:
   syncthing:
-    image: syncthing/syncthing
+    image: syncthing/syncthing:1.30
     container_name: syncthing
     hostname: ${HOSTNAME:-syncthingHost} # 无HOSTNAME变量时用"syncthingHost"
     environment:
