@@ -83,6 +83,13 @@ function reset_nginx() {
     chmod +x ./run.py && python3 ./run.py
 }
 
+### 六，配置 syncthing 文件同步
+function reset_syncthing() {
+    echo "重置 syncthing 配置"
+    cd ./syncthing/
+    chmod +x ./run.py && python3 ./run.py
+}
+
 # 执行
 pre_install_docker_ce
 
@@ -92,6 +99,7 @@ echo "### 2: 安装 portainer-ce    ###"
 echo "### 3: 安装 portainer_agent ###"
 echo "### 4: 安装 syncthing       ###"
 echo "### 5: 重载 nginx 配置文件  ###"
+echo "### 6: 重载 syncthing 配置  ###"
 echo "###############################"
 
 # 注意：定义变量时，=号前后不能有空格
@@ -110,7 +118,7 @@ fi
 #6，去掉字符串中的所有空格
 #7，最后得到的软件编号和组合编号就只有7种形式：1,2,3,12,23,13,123
 
-filter_num=`echo ${SOFT_NUM} | tr -cd "[1-5]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
+filter_num=`echo ${SOFT_NUM} | tr -cd "[1-6]" | sed 's/./& /g' | tr ' ' '\n' | sort -nu | tr '\n' ' ' | sed s/[[:space:]]//g`
 
 #此case必须放置在定义的函数后面，不然会提示找不到函数，无法执行
 case $filter_num in
@@ -128,6 +136,9 @@ case $filter_num in
  ;;
  5)
     reset_nginx
+ ;;
+ 6)
+    reset_syncthing
  ;;
  *)
     echo "请重新输入编号或编号组合"
